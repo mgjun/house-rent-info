@@ -1,0 +1,45 @@
+version: "2.0"
+services:
+    flyway:
+        image: boxfuse/flyway
+        command: [
+            "-url=jdbc:mysql://127.0.0.1:33060/house_rent_demo?useSSL=false",
+            "-schemas=house_rent_demo",
+            "-user=root",
+            "-password=root",
+            "migrate"
+            ]
+        volumes:
+            - ../src/main/resources/db/migration:/flyway/sql
+        depends_on:
+            - mysqldb
+        environment:
+          - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:33060/house_rent_demo?useSSL=false
+          - SPRING_DATASOURCE_USERNAME=user
+          - SPRING_DATASOURCE_PASSWORD=password
+    mysqldb:
+        image: "mysql:5.7"
+        volumes:
+            - /Users/jun/Documents/mysql/data/5.7:/var/lib/mysql
+        ports:
+            - "33060:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        container_name: house_rent_db
+        command: [
+              "--character-set-server=utf8mb4",
+              "--collation-server=utf8mb4_unicode_ci",
+              "--innodb_flush_log_at_trx_commit=1",
+              "--sync_binlog=1"
+        ]
+    tomcat:
+        container_name: house-rent
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        volumes:
+          - ../target/houseRent.war:/usr/local/tomcat/webapps/houseRent.war
+        expose:
+          - "8009"
+        depends_on:
+            - mysqldb
