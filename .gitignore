@@ -2,7 +2,6 @@
 
 .idea
 
-.house-git-credentials
-
+.git-credentials
 
 /src/main/java/com/example/jooq/**
