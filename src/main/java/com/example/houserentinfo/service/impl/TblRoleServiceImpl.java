@@ -1,10 +1,12 @@
 package com.example.houserentinfo.service.impl;
 
 import com.example.houserentinfo.entity.TblRole;
-import com.example.houserentinfo.entity.TblUser;
+import com.example.houserentinfo.exception.EntityNotFoundException;
 import com.example.houserentinfo.repository.TblRoleRepository;
 import com.example.houserentinfo.service.TblRoleService;
 import com.example.houserentinfo.dto.RoleDto;
+import com.example.houserentinfo.util.StatusCode;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ import java.util.Optional;
 @Service
 public class TblRoleServiceImpl implements TblRoleService {
 
-    private TblRoleRepository tblRoleRepository;
+    private final TblRoleRepository tblRoleRepository;
 
 
     @Autowired
@@ -35,7 +37,10 @@ public class TblRoleServiceImpl implements TblRoleService {
     }
 
     @Override
-    public List<TblUser> pageAndSortRoleList(RoleDto roleVo) {
+    public List<TblRole> pageAndSortRoleList(RoleDto roleVo) {
+        if(Objects.nonNull(roleVo) && Objects.isNull(roleVo.getRoleId())) {
+            throw new EntityNotFoundException(StatusCode.ENTITY_NOT_FOUND,"role not found");
+        }
         return null;
     }
 

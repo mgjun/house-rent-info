@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1/api")
+@RequestMapping("/user")
 @RequiresRoles("user")
 public class UserController {
 

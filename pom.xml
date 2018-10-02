@@ -25,6 +25,7 @@
         <modelMapper.version>1.1.0</modelMapper.version>
         <swagger.version>2.7.0</swagger.version>
         <shiro.version>1.4.0</shiro.version>
+        <restAssure.version>2.8.0</restAssure.version>
     </properties>
 
     <dependencies>
@@ -41,8 +42,8 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
         <!--</dependency>-->
 
         <dependency>
@@ -111,6 +112,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.jayway.restassured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restAssure.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

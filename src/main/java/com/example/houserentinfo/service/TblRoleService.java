@@ -1,7 +1,6 @@
 package com.example.houserentinfo.service;
 
 import com.example.houserentinfo.entity.TblRole;
-import com.example.houserentinfo.entity.TblUser;
 import com.example.houserentinfo.dto.RoleDto;
 
 import java.util.List;
@@ -13,5 +12,5 @@ public interface TblRoleService {
 
     Optional<TblRole> findById(Long roleId);
 
-    List<TblUser> pageAndSortRoleList(RoleDto roleVo);
+    List<TblRole> pageAndSortRoleList(RoleDto roleVo);
 }

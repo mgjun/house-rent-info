@@ -1,5 +1,8 @@
-package com.example.houserentinfo.util;
+package com.example.houserentinfo.exception;
 
+import com.example.houserentinfo.util.HouseRentHttpStatus;
+import com.example.houserentinfo.util.RestResponse;
+import com.example.houserentinfo.util.StatusCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -17,10 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(RuntimeException.class)
     @ResponseBody
-    public RestResponse handleGlobalException(HttpServletRequest request, Exception ex) {
-        log.error("cause unknown error", ex);
+    public RestResponse mapUnHandledException(HttpServletRequest request, RuntimeException ex) {
+        log.error("unknown error", ex);
         return RestResponse.builder()
                 .errorCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
@@ -29,9 +32,21 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseBody
+    public RestResponse mapEntityNotFoundException(HttpServletRequest request, EntityNotFoundException ex) {
+        log.error("unknown error", ex);
+        return RestResponse.builder()
+                           .errorCode(HttpStatus.BAD_REQUEST.value())
+                           .message(ex.getErrorMessage())
+                           .success(StatusCode.ENTITY_NOT_FOUND)
+                           .build();
+    }
+
+
     @ExceptionHandler(ShiroException.class)
     @ResponseBody
-    public RestResponse handleIncorrectCredentialException(HttpServletRequest request, Exception ex) {
+    public RestResponse mapIncorrectCredentialException(HttpServletRequest request, Exception ex) {
         if (ex instanceof UnknownAccountException || ex instanceof IncorrectCredentialsException) {
             return RestResponse.builder()
                     .errorCode(HouseRentHttpStatus.UNAUTHORIZED_USER.value())
